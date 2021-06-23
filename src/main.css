@@ -6,6 +6,12 @@ floatingMail {
     box-sizing: border-box;
 }
 
+#greeting {
+    padding-top: 10%;
+    padding-left: 45%;
+    margin: auto;
+}
+
 #floatingPassword {
     width: 250px;
     margin: 20px 0;

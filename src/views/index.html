@@ -52,7 +52,7 @@
         </div>
     </nav>
     <div id=inicioapp>
-        <h1>Buenos dias :)</h1>
+        <h4 id="greeting">👻 Bienvenido!</h4>
     </div>
     <div class='c1'>
         <div id='content'>
@@ -65,7 +65,7 @@
     const electron = require('electron');
     const ipcRenderer = electron.ipcRenderer;
 
-    //Region navegacion
+    //Region navegacion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     var home, ventas, clientesRegistrar, clientesLista = ""
     var proveedoresRegistrar, proveedoresLista, listaDeProductos = ""
     var productoRegistrar, productoLista = ""
@@ -117,9 +117,9 @@
     function goToMenu() {
         location.href = '#/';
     }
-    //endregion
+    //endregion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    //region crud cliente
+    //region crud cliente----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     const nombreClienteIndex = 0
     const direccionClienteIndex = 1
     const fechaClienteIndex = 2
@@ -199,5 +199,5 @@
         result = result + `</table>`
         document.getElementById("content").innerHTML = result;
     });
-    //endregion
+    //endregion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </script>

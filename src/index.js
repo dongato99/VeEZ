@@ -13,7 +13,7 @@ var dbClient
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
         show: false,
-        width: 1200,
+        width: 1250,
         height: 800,
         webPreferences: {
             nodeIntegration: true,
