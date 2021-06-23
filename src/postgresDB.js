@@ -50,7 +50,7 @@ class DBClient {
                 console.log("error obteniendo clientes: " + err);
             } else {
                 //console.log(res.rows)
-                this.mainWindow.webContents.send("listaClientes", res.rows)
+                this.mainWindow.webContents.send("clientesLista", res.rows)
             }
         })
     }
