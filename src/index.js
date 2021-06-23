@@ -9,7 +9,7 @@ const DBClient = require('./postgresDB');
 //}
 
 let mainWindow
-
+var dbClient
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
         show: false,
@@ -24,14 +24,21 @@ app.on('ready', () => {
     mainWindow.loadFile(path.join(__dirname, 'views/index.html'));
     mainWindow.setMenuBarVisibility(false)
     mainWindow.webContents.openDevTools();
+    dbClient = new DBClient(mainWindow)
     mainWindow.webContents.on('did-finish-load', () => {
         //mainWindow.maximize();
         mainWindow.show()
     })
 });
+//end electron config -------------------------------------------------------------------------------------------------
 
-var dbClient = new DBClient()
+
+//region crud----------------------------------------------------------------------------------------------------------
 ipcMain.on('registrarCliente', (event, arg) => {
     console.log(arg) // prints "ping"
     dbClient.registrarCliente(arg)
+})
+
+ipcMain.on('obtenerClientes', (event, arg) => {
+    dbClient.obtenerClientes()
 })

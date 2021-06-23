@@ -60,6 +60,21 @@
 
 </html>
 <script>
+    function waitForElementToDisplay(selector, callback, checkFrequencyInMs, timeoutInMs) {
+        var startTimeInMs = Date.now();
+        (function loopSearch() {
+            if (document.querySelector(selector) != null) {
+                callback();
+                return;
+            } else {
+                setTimeout(function() {
+                    if (timeoutInMs && Date.now() - startTimeInMs > timeoutInMs)
+                        return;
+                    loopSearch();
+                }, checkFrequencyInMs);
+            }
+        })();
+    }
     var home = ""
     var ventas = ""
     var clientesRegistrar = ""
@@ -113,6 +128,7 @@
         }
         if (location.hash == "#clientesLista") {
             document.getElementById("content").innerHTML = clientesLista
+            ipcRenderer.send("obtenerClientes", "obtenerClientes");
         }
         if (location.hash == "#proveedoresRegistrar") {
             document.getElementById("content").innerHTML = proveedoresRegistrar
@@ -135,9 +151,6 @@
         loadContent();
     }
 
-
-
-
     const electron = require('electron');
     const ipcRenderer = electron.ipcRenderer;
 
@@ -159,5 +172,34 @@
             "mail": mail,
             "tel": tel
         });
+        document.getElementById("content").innerHTML = listaDeProductos
     }
+
+    ipcRenderer.on('listaClientes', (event, data) => {
+        var result = `
+        <h1 align="center">Lista de Clientes</h1>
+        <table class="table table-hover" id="listaClientes">
+        <tr class="table-primary">
+        <th scope="row">Nombre Cliente</th>
+        <td>Dirección</td>
+        <td>Fecha de nacimiento</td>
+        <td>Correo electronico</td>
+        <td>Número de telefono</td>
+        </tr>`
+        data.forEach((cliente, index) => {
+            result = result + `
+            <tr class="table-secondary">
+            <td>${cliente.nombre}</td>
+            <td>${cliente.direccion}</td>
+            <td>${cliente.fechaNacimiento}</td>
+            <td>${cliente.correo}</td>
+            <td>${cliente.numero}</td>
+            </tr>           
+            `
+        })
+        result = result + `</table>`
+            //console.log(result)
+        document.getElementById("content").innerHTML = result;
+
+    });
 </script>
