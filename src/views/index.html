@@ -62,15 +62,13 @@
 
 </html>
 <script>
-    var home = ""
-    var ventas = ""
-    var clientesRegistrar = ""
-    var clientesLista = ""
-    var proveedoresRegistrar = ""
-    var proveedoresLista = ""
-    var listaDeProductos = ""
-    var productoRegistrar = ""
-    var productoLista = ""
+    const electron = require('electron');
+    const ipcRenderer = electron.ipcRenderer;
+
+    //Region navegacion
+    var home, ventas, clientesRegistrar, clientesLista = ""
+    var proveedoresRegistrar, proveedoresLista, listaDeProductos = ""
+    var productoRegistrar, productoLista = ""
 
     async function loadHtmlFiles() {
         const [homeResponse, ventasResponse, clientesRegistrarResponse, clientesListaResponse,
@@ -87,7 +85,6 @@
             fetch('./productoRegistrar.html'),
             fetch('./productoLista.html'),
         ]);
-
         home = await homeResponse.text();
         ventas = await ventasResponse.text();
         clientesRegistrar = await clientesRegistrarResponse.text();
@@ -98,9 +95,9 @@
         productoRegistrar = await productoRegistrarResponse.text();
         productoLista = await productoListaResponse.text();
     }
+    loadHtmlFiles();
 
-    loadHtmlFiles()
-    async function loadContent(event) {
+    window.onhashchange = function() {
         var x = document.getElementById("inicioapp");
         x.style.display = "none";
         if (event) event.preventDefault();
@@ -113,21 +110,16 @@
 
         //caso general
         locName = location.hash.replace("#", "")
-        document.getElementById("content").innerHTML = window[locName]
+        document.getElementById("content").innerHTML = window[locName] //window[locName] obtiene una variable con su nombre y los nombres de las variables son iguales a las navegacionesHash
         ipcRenderer.send(locName, locName);
     }
-
-    window.onhashchange = function() {
-        loadContent();
-    }
-
-    const electron = require('electron');
-    const ipcRenderer = electron.ipcRenderer;
 
     function goToMenu() {
         location.href = '#/';
     }
+    //endregion
 
+    //region crud cliente
     const nombreClienteIndex = 0
     const direccionClienteIndex = 1
     const fechaClienteIndex = 2
@@ -207,4 +199,5 @@
         result = result + `</table>`
         document.getElementById("content").innerHTML = result;
     });
+    //endregion
 </script>
