@@ -134,4 +134,30 @@
     window.onhashchange = function() {
         loadContent();
     }
+
+
+
+
+    const electron = require('electron');
+    const ipcRenderer = electron.ipcRenderer;
+
+    function goToMenu() {
+        location.href = '#/';
+    }
+
+    function registrarCliente() {
+        nombre = document.getElementById("floatingnombre").value;
+        dir = document.getElementById("floatingdireccion").value;
+        date = document.getElementById("floatingDate").value;
+        mail = document.getElementById("floatingMail").value;
+        tel = document.getElementById("floatingtel").value;
+        goToMenu();
+        ipcRenderer.send("registrarCliente", {
+            "nombre": nombre,
+            "dir": dir,
+            "date": date,
+            "mail": mail,
+            "tel": tel
+        });
+    }
 </script>

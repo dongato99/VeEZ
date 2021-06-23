@@ -1,4 +1,6 @@
-#floatingInput {
+#floatingInput,
+floatingDate,
+floatingMail {
     width: 250px;
     margin: 20px 0;
     box-sizing: border-box;

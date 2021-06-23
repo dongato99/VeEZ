@@ -1,15 +1,12 @@
-const { app, BrowserWindow, Menu } = require('electron');
-
-const url = require('url');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const nodeConsole = require('console');
+const DBClient = require('./postgresDB');
 
-if (process.env.NODE_ENV !== 'production') {
-    require('electron-reload')(__dirname, {
-        electron: path.join(__dirname, '../node_modules', '.bin', 'electron')
-
-    })
-}
+//if (process.env.NODE_ENV !== 'production') {
+//  require('electron-reload')(__dirname, {
+//  electron: path.join(__dirname, '../node_modules', '.bin', 'electron')
+//})
+//}
 
 let mainWindow
 
@@ -25,35 +22,16 @@ app.on('ready', () => {
         }
     })
     mainWindow.loadFile(path.join(__dirname, 'views/index.html'));
-
-    //mainWindow.setMenuBarVisibility(false)
-
-    Menu.setApplicationMenu(Menu.buildFromTemplate(templateMenu));
+    mainWindow.setMenuBarVisibility(false)
+    mainWindow.webContents.openDevTools();
     mainWindow.webContents.on('did-finish-load', () => {
         //mainWindow.maximize();
         mainWindow.show()
     })
 });
 
-
-
-const templateMenu = [
-
-
-]
-
-if (process.env.NODE_ENV !== 'production') {
-    templateMenu.push({
-        label: 'DevTools',
-        submenu: [{
-                label: 'Show/Hide Dev Tools',
-                click(item, focusedWindow) {
-                    focusedWindow.toggleDevTools();
-                }
-            },
-            {
-                role: 'reload'
-            }
-        ]
-    })
-}
+var dbClient = new DBClient()
+ipcMain.on('registrarCliente', (event, arg) => {
+    console.log(arg) // prints "ping"
+    dbClient.registrarCliente(arg)
+})
