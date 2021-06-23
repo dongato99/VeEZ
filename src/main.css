@@ -2,34 +2,39 @@
     width: 250px;
     margin: 20px 0;
     box-sizing: border-box;
-  }
+}
 
 #floatingPassword {
     width: 250px;
     margin: 20px 0;
     box-sizing: border-box;
-  }
+}
 
-  #floatingnombre {
+#floatingnombre {
     width: 250px;
     margin: 20px 0;
     box-sizing: border-box;
-  }
-.form-group{
+}
+
+.form-group {
     position: absolute;
     top: 10%;
     left: 44%;
-  }
-.tablaprecios table, th, td{
-border: 1px solid black;
-border-collapse: collapse;
-}
-.btn.btn-success{
-    position: relative;
-    left:80%;
 }
 
-#botonCancelar{
+.tablaprecios table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.btn.btn-success {
     position: relative;
-    left:-40%;
+    left: 80%;
+}
+
+#botonCancelar {
+    position: relative;
+    left: -40%;
 }
