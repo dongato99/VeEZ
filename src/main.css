@@ -24,6 +24,12 @@ floatingMail {
     left: 44%;
 }
 
+#listaClientes .btn.btn-warning,
+#listaClientes .btn.btn-danger {
+    margin-right: 2%;
+    width: 48%;
+}
+
 .tablaprecios table,
 th,
 td {

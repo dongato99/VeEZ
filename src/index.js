@@ -35,10 +35,18 @@ app.on('ready', () => {
 
 //region crud----------------------------------------------------------------------------------------------------------
 ipcMain.on('registrarCliente', (event, arg) => {
-    console.log(arg) // prints "ping"
+    console.log(arg) // prints client
     dbClient.registrarCliente(arg)
 })
 
 ipcMain.on('obtenerClientes', (event, arg) => {
     dbClient.obtenerClientes()
+})
+
+ipcMain.on('borrarCliente', (event, arg) => {
+    dbClient.borrarCliente(arg)
+})
+
+ipcMain.on('editarCliente', (event, arg) => {
+    dbClient.editarCliente(arg)
 })

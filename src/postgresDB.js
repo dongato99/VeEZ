@@ -23,6 +23,26 @@ class DBClient {
         })
     }
 
+    editarCliente(cliente) {
+        var query = `update public.clientes set (nombre, direccion, "fechaNacimiento", numero) = ('${cliente.nombre}' ,'${cliente.dir}', '${cliente.date}', '${cliente.tel}') where correo = '${cliente.mail}'`
+            //console.log(query)
+        this.client.query(query, (err, res) => {
+            if (err) {
+                console.log("error editando cliente: " + cliente + " error: " + err);
+            }
+        })
+    }
+
+    borrarCliente(correo) {
+        var query = `delete from public.clientes where correo = '${correo}'`
+        this.client.query(query, (err, res) => {
+            if (err) {
+                console.log("error obteniendo clientes: " + err);
+            }
+        })
+    }
+
+
     obtenerClientes() {
         var query = "select * from public.clientes"
         this.client.query(query, (err, res) => {
