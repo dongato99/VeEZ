@@ -39,7 +39,7 @@ ipcMain.on('registrarCliente', (event, arg) => {
     dbClient.registrarCliente(arg)
 })
 
-ipcMain.on('obtenerClientes', (event, arg) => {
+ipcMain.on('clientesLista', (event, arg) => {
     dbClient.obtenerClientes()
 })
 

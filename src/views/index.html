@@ -73,7 +73,10 @@
     var productoLista = ""
 
     async function loadHtmlFiles() {
-        const [homeResponse, ventasResponse, clientesRegistrarResponse, clientesListaResponse, proveedoresRegistrarResponse, proveedoresListaResponse, listaDeProductosResponse, productoRegistrarResponse, productoListaResponse] = await Promise.all([
+        const [homeResponse, ventasResponse, clientesRegistrarResponse, clientesListaResponse,
+            proveedoresRegistrarResponse, proveedoresListaResponse, listaDeProductosResponse,
+            productoRegistrarResponse, productoListaResponse
+        ] = await Promise.all([
             fetch('./home.html'),
             fetch('./ventas.html'),
             fetch('./clientesRegistrar.html'),
@@ -101,34 +104,17 @@
         var x = document.getElementById("inicioapp");
         x.style.display = "none";
         if (event) event.preventDefault();
+
+        //caso home
         if (location.hash == "#/") {
             document.getElementById("content").innerHTML = home
+            return;
         }
-        if (location.hash == "#ventas") {
-            document.getElementById("content").innerHTML = ventas
-        }
-        if (location.hash == "#clientesRegistrar") {
-            document.getElementById("content").innerHTML = clientesRegistrar
-        }
-        if (location.hash == "#clientesLista") {
-            document.getElementById("content").innerHTML = clientesLista
-            ipcRenderer.send("obtenerClientes", "obtenerClientes");
-        }
-        if (location.hash == "#proveedoresRegistrar") {
-            document.getElementById("content").innerHTML = proveedoresRegistrar
-        }
-        if (location.hash == "#proveedoresLista") {
-            document.getElementById("content").innerHTML = proveedoresLista
-        }
-        if (location.hash == "#listaDeProductos") {
-            document.getElementById("content").innerHTML = listaDeProductos
-        }
-        if (location.hash == "#productoRegistrar") {
-            document.getElementById("content").innerHTML = productoRegistrar
-        }
-        if (location.hash == "#productoLista") {
-            document.getElementById("content").innerHTML = productoLista
-        }
+
+        //caso general
+        locName = location.hash.replace("#", "")
+        document.getElementById("content").innerHTML = window[locName]
+        ipcRenderer.send(locName, locName);
     }
 
     window.onhashchange = function() {
@@ -195,7 +181,7 @@
         )
     }
 
-    ipcRenderer.on('listaClientes', (event, data) => {
+    ipcRenderer.on('clientesLista', (event, data) => {
         var result = `
         <h1 align="center">Lista de Clientes</h1>
         <table class="table table-hover" id="listaClientes">
