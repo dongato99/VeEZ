@@ -26,7 +26,7 @@ CREATE DATABASE "VeEZ" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_
 
 ALTER DATABASE "VeEZ" OWNER TO postgres;
 
-\connect "VeEZ"
+connect "VeEZ"
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
