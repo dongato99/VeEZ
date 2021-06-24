@@ -299,6 +299,9 @@
     const precioVentaProductoIndex = 5
     const unidadesProductoIndex = 6
     const uomProductoIndex = 7
+    const costoPromedioDeProductoInicial = 0
+    const unidadesInicialesDeProducto = 0
+
 
     function editarProducto(cellContents) {
         var fila = cellContents.parentNode.parentNode
@@ -310,15 +313,14 @@
         var precioVenta = fila.cells[precioVentaProductoIndex].outerText
         var unidades = fila.cells[unidadesProductoIndex].outerText
         var uom = fila.cells[uomProductoIndex].outerText
-
         ipcRenderer.send("editarProducto", {
             "id": id,
             "nombre": nombre,
             "desc": desc,
             "categ": categ,
-            "pCompra": 0,
+            "pCompra": costoPromedioDeProductoInicial,
             "pVenta": precioVenta,
-            "unidades": 0,
+            "unidades": unidadesInicialesDeProducto,
             "uom": uom
         });
         Swal.fire(
@@ -350,9 +352,9 @@
             "nombre": nombre,
             "desc": desc,
             "categ": categ,
-            "pCompra": 0,
+            "pCompra": costoPromedioDeProductoInicial,
             "pVenta": precioVenta,
-            "unidades": 0,
+            "unidades": unidadesInicialesDeProducto,
             "uom": uom
         });
         goToMenu();

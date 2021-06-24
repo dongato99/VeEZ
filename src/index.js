@@ -2,14 +2,9 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const DBClient = require('./postgresDB');
 
-//if (process.env.NODE_ENV !== 'production') {
-//  require('electron-reload')(__dirname, {
-//  electron: path.join(__dirname, '../node_modules', '.bin', 'electron')
-//})
-//}
-
 let mainWindow
 var dbClient
+
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
         show: false,
@@ -23,10 +18,8 @@ app.on('ready', () => {
     })
     mainWindow.loadFile(path.join(__dirname, 'views/index.html'));
     mainWindow.setMenuBarVisibility(false)
-    mainWindow.webContents.openDevTools();
     dbClient = new DBClient(mainWindow)
     mainWindow.webContents.on('did-finish-load', () => {
-        //mainWindow.maximize();
         mainWindow.show()
     })
 });
@@ -35,7 +28,7 @@ app.on('ready', () => {
 
 //region crud----------------------------------------------------------------------------------------------------------
 ipcMain.on('registrarCliente', (event, arg) => {
-    console.log(arg) // prints client
+    console.log(arg)
     dbClient.registrarCliente(arg)
 })
 
@@ -52,7 +45,7 @@ ipcMain.on('editarCliente', (event, arg) => {
     })
     //crud proveedores--------------------------------
 ipcMain.on('registrarProveedor', (event, arg) => {
-    console.log(arg) // prints client
+    console.log(arg)
     dbClient.registrarProveedor(arg)
 })
 
@@ -69,7 +62,7 @@ ipcMain.on('editarProveedor', (event, arg) => {
     })
     //crud productos--------------------------------
 ipcMain.on('registrarProducto', (event, arg) => {
-    console.log(arg) // prints client
+    console.log(arg)
     dbClient.registrarProducto(arg)
 })
 
