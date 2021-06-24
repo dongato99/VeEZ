@@ -200,4 +200,78 @@
         document.getElementById("content").innerHTML = result;
     });
     //endregion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //region crud proveedor----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    const nombreProveedorIndex = 0
+    const direccionProveedorIndex = 1
+    const correoProveedorIndex = 2
+    const numeroProveedorIndex = 3
+
+    function editarProveedor(cellContents) {
+        var fila = cellContents.parentNode.parentNode
+        var nombre = fila.cells[nombreProveedorIndex].outerText
+        var dir = fila.cells[direccionProveedorIndex].outerText
+        var mail = fila.cells[correoProveedorIndex].outerText
+        var tel = fila.cells[numeroProveedorIndex].outerText
+        ipcRenderer.send("editarProveedor", {
+            "nombre": nombre,
+            "dir": dir,
+            "mail": mail,
+            "tel": tel
+        });
+    }
+
+    function eliminarProveedor(cellContents) {
+        console.log(cellContents)
+        var fila = cellContents.parentNode.parentNode
+        var idFila = fila.rowIndex
+        console.log(fila)
+        var correo = fila.cells[correoProveedorIndex].outerText
+        document.getElementById("listaProveedores").deleteRow(idFila);
+        ipcRenderer.send("borrarProveedor", correo);
+    }
+
+    function registrarProveedor() {
+        nombre = document.getElementById("floatingnombre").value;
+        dir = document.getElementById("floatingdireccion").value;
+        mail = document.getElementById("floatingMail").value;
+        tel = document.getElementById("floatingtel").value;
+        ipcRenderer.send("registrarProveedor", {
+            "nombre": nombre,
+            "dir": dir,
+            "mail": mail,
+            "tel": tel
+        });
+        goToMenu();
+        Swal.fire(
+            'Success',
+            'Proveedor creado',
+            'success'
+        )
+    }
+
+    ipcRenderer.on('proveedoresLista', (event, data) => {
+        var result = `
+        <h1 align="center">Lista de Proveedores</h1>
+        <table class="table table-hover" id="listaProveedores">
+        <tr class="table-primary">
+        <th scope="row">Nombre de Empresa/Proveedor</th>
+        <td>Dirección</td>
+        <td>Correo electronico</td>
+        <td>Número de telefono</td>
+        <td>Acciones</td>        
+         </tr>`
+        data.forEach((proveedor, index) => {
+            result = result + `
+            <tr class="table-secondary">
+            <td contenteditable='true'>${proveedor.nombre}</td>
+            <td contenteditable='true'>${proveedor.direccion}</td>
+            <td contenteditable='false'>${proveedor.correo}</td>
+            <td contenteditable='true'>${proveedor.numero}</td>
+            <td contenteditable='false'><button type="button" onclick="editarProveedor(this)" class="btn btn-warning">Editar</button><button type="button" onclick="eliminarProveedor(this)" class="btn btn-danger">Borrar</button></td>
+            </tr>`
+        })
+        result = result + `</table>`
+        document.getElementById("content").innerHTML = result;
+    });
+    //endregion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </script>

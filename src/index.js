@@ -48,5 +48,22 @@ ipcMain.on('borrarCliente', (event, arg) => {
 })
 
 ipcMain.on('editarCliente', (event, arg) => {
-    dbClient.editarCliente(arg)
+        dbClient.editarCliente(arg)
+    })
+    //crud proveedores--------------------------------
+ipcMain.on('registrarProveedor', (event, arg) => {
+    console.log(arg) // prints client
+    dbClient.registrarProveedor(arg)
+})
+
+ipcMain.on('proveedoresLista', (event, arg) => {
+    dbClient.obtenerProveedores()
+})
+
+ipcMain.on('borrarProveedor', (event, arg) => {
+    dbClient.borrarProveedor(arg)
+})
+
+ipcMain.on('editarProveedor', (event, arg) => {
+    dbClient.editarProveedor(arg)
 })
