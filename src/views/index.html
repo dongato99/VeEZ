@@ -44,7 +44,7 @@
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administracion de Productos</a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#productoRegistrar">Registrar Producto</a>
-                            <a class="dropdown-item" href="#productoLista">Lista de Productos(Ver, Editar, Borrar)</a>
+                            <a class="dropdown-item" href="#productosLista">Lista de Productos(Ver, Editar, Borrar)</a>
                         </div>
                     </li>
                 </ul>
@@ -68,7 +68,7 @@
     //Region navegacion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     var home, ventas, clientesRegistrar, clientesLista = ""
     var proveedoresRegistrar, proveedoresLista, listaDeProductos = ""
-    var productoRegistrar, productoLista = ""
+    var productoRegistrar, productosLista = ""
 
     async function loadHtmlFiles() {
         const [homeResponse, ventasResponse, clientesRegistrarResponse, clientesListaResponse,
@@ -83,7 +83,7 @@
             fetch('./proveedoresLista.html'),
             fetch('./listaDeProductos.html'),
             fetch('./productoRegistrar.html'),
-            fetch('./productoLista.html'),
+            fetch('./productosLista.html'),
         ]);
         home = await homeResponse.text();
         ventas = await ventasResponse.text();
@@ -93,7 +93,7 @@
         proveedoresLista = await proveedoresListaResponse.text();
         listaDeProductos = await listaDeProductosResponse.text();
         productoRegistrar = await productoRegistrarResponse.text();
-        productoLista = await productoListaResponse.text();
+        productosLista = await productoListaResponse.text();
     }
     loadHtmlFiles();
 
@@ -140,6 +140,11 @@
             "mail": mail,
             "tel": tel
         });
+        Swal.fire(
+            'Success',
+            'Cliente editado',
+            'success'
+        )
     }
 
     function eliminarCliente(cellContents) {
@@ -174,19 +179,20 @@
     }
 
     ipcRenderer.on('clientesLista', (event, data) => {
-        var result = `
-        <h1 align="center">Lista de Clientes</h1>
-        <table class="table table-hover" id="listaClientes">
-        <tr class="table-primary">
-        <th scope="row">Nombre Cliente</th>
-        <td>Dirección</td>
-        <td>Fecha de nacimiento</td>
-        <td>Correo electronico</td>
-        <td>Número de telefono</td>
-        <td>Acciones</td>
-        </tr>`
-        data.forEach((cliente, index) => {
-            result = result + `
+        if (data && data.length > 0) {
+            var result = `
+            <h1 align="center">Lista de Clientes</h1>
+            <table class="table table-hover" id="listaClientes">
+            <tr class="table-primary">
+            <th scope="row">Nombre Cliente</th>
+            <td>Dirección</td>
+            <td>Fecha de nacimiento</td>
+            <td>Correo electronico</td>
+            <td>Número de telefono</td>
+            <td>Acciones</td>
+            </tr>`
+            data.forEach((cliente, index) => {
+                result = result + `
             <tr class="table-secondary">
             <td contenteditable='true'>${cliente.nombre}</td>
             <td contenteditable='true'>${cliente.direccion}</td>
@@ -195,9 +201,11 @@
             <td contenteditable='true'>${cliente.numero}</td>
             <td contenteditable='false'><button type="button" onclick="editarCliente(this)" class="btn btn-warning">Editar</button><button type="button" onclick="eliminarCliente(this)" class="btn btn-danger">Borrar</button></td>
             </tr>`
-        })
-        result = result + `</table>`
-        document.getElementById("content").innerHTML = result;
+
+            })
+            result = result + `</table>`
+            document.getElementById("content").innerHTML = result;
+        }
     });
     //endregion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //region crud proveedor----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -218,6 +226,11 @@
             "mail": mail,
             "tel": tel
         });
+        Swal.fire(
+            'Success',
+            'Proveedor editado',
+            'success'
+        )
     }
 
     function eliminarProveedor(cellContents) {
@@ -250,18 +263,19 @@
     }
 
     ipcRenderer.on('proveedoresLista', (event, data) => {
-        var result = `
-        <h1 align="center">Lista de Proveedores</h1>
-        <table class="table table-hover" id="listaProveedores">
-        <tr class="table-primary">
-        <th scope="row">Nombre de Empresa/Proveedor</th>
-        <td>Dirección</td>
-        <td>Correo electronico</td>
-        <td>Número de telefono</td>
-        <td>Acciones</td>        
-         </tr>`
-        data.forEach((proveedor, index) => {
-            result = result + `
+        if (data && data.length > 0) {
+            var result = `
+            <h1 align="center">Lista de Proveedores</h1>
+            <table class="table table-hover" id="listaProveedores">
+            <tr class="table-primary">
+            <th scope="row">Nombre de Empresa/Proveedor</th>
+            <td>Dirección</td>
+            <td>Correo electronico</td>
+            <td>Número de telefono</td>
+            <td>Acciones</td>        
+            </tr>`
+            data.forEach((proveedor, index) => {
+                result = result + `
             <tr class="table-secondary">
             <td contenteditable='true'>${proveedor.nombre}</td>
             <td contenteditable='true'>${proveedor.direccion}</td>
@@ -269,9 +283,119 @@
             <td contenteditable='true'>${proveedor.numero}</td>
             <td contenteditable='false'><button type="button" onclick="editarProveedor(this)" class="btn btn-warning">Editar</button><button type="button" onclick="eliminarProveedor(this)" class="btn btn-danger">Borrar</button></td>
             </tr>`
-        })
-        result = result + `</table>`
-        document.getElementById("content").innerHTML = result;
+            })
+            result = result + `</table>`
+            document.getElementById("content").innerHTML = result;
+        }
+    });
+    //endregion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //region crud producto----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    const idProductoIndex = 0
+    const nombreProductoIndex = 1
+    const descProductoIndex = 2
+    const categProductoIndex = 3
+    const precioCompraProductoIndex = 4
+    const precioVentaProductoIndex = 5
+    const unidadesProductoIndex = 6
+    const uomProductoIndex = 7
+
+    function editarProducto(cellContents) {
+        var fila = cellContents.parentNode.parentNode
+        var id = fila.cells[idProductoIndex].outerText
+        var nombre = fila.cells[nombreProductoIndex].outerText
+        var desc = fila.cells[descProductoIndex].outerText
+        var categ = fila.cells[categProductoIndex].outerText
+        var precioCompra = fila.cells[precioCompraProductoIndex].outerText
+        var precioVenta = fila.cells[precioVentaProductoIndex].outerText
+        var unidades = fila.cells[unidadesProductoIndex].outerText
+        var uom = fila.cells[uomProductoIndex].outerText
+
+        ipcRenderer.send("editarProducto", {
+            "id": id,
+            "nombre": nombre,
+            "desc": desc,
+            "categ": categ,
+            "pCompra": 0,
+            "pVenta": precioVenta,
+            "unidades": 0,
+            "uom": uom
+        });
+        Swal.fire(
+            'Success',
+            'Producto editado',
+            'success'
+        )
+    }
+
+    function eliminarProducto(cellContents) {
+        console.log(cellContents)
+        var fila = cellContents.parentNode.parentNode
+        var idFila = fila.rowIndex
+        console.log(fila)
+        var id = fila.cells[idProductoIndex].outerText
+        document.getElementById("listaProductos").deleteRow(idFila);
+        ipcRenderer.send("borrarProducto", id);
+    }
+
+    function registrarProducto() {
+        id = document.getElementById("floatingid").value;
+        nombre = document.getElementById("floatingnombre").value;
+        desc = document.getElementById("floatingdescripcion").value;
+        categ = document.getElementById("floatingcategoria").value;
+        precioVenta = document.getElementById("floatingventa").value;
+        uom = document.getElementById("floatinguom").value;
+        ipcRenderer.send("registrarProducto", {
+            "id": id,
+            "nombre": nombre,
+            "desc": desc,
+            "categ": categ,
+            "pCompra": 0,
+            "pVenta": precioVenta,
+            "unidades": 0,
+            "uom": uom
+        });
+        goToMenu();
+        Swal.fire(
+            'Success',
+            'Producto creado',
+            'success'
+        )
+    }
+
+    ipcRenderer.on('productosLista', (event, data) => {
+        if (data && data.length > 0) {
+            var result = `
+            <h1 align="center">Lista de Productos</h1>
+            <table class="table table-hover" id="listaProductos">
+            <tr class="table-primary">
+            <th scope="row">ID del producto</th>
+            <td>Nombre del producto</td>
+            <td>Descripción</td>
+            <td>Categoría</td>
+            <td>Precio de compra</td>
+            <td>Precio de venta</td>
+            <td>Unidades</td>
+            <td>Unidad de medida</td>
+            <td>Acciones</td>
+            </tr>`
+            data.forEach((producto, index) => {
+                result = result + `
+            <tr class="table-secondary">
+            <td contenteditable='false'>${producto.id}</td>
+            <td contenteditable='true'>${producto.nombre}</td>
+            <td contenteditable='true'>${producto.descripcion}</td>
+            <td contenteditable='true'>${producto.categoria}</td>
+            <td contenteditable='true'>${producto.precio_compra}</td>
+            <td contenteditable='true'>${producto.precio_venta}</td>
+            <td contenteditable='true'>${producto.unidades}</td>
+            <td contenteditable='true'>${producto.uom}</td>
+            <td contenteditable='false'><button type="button" onclick="editarProducto(this)" class="btn btn-warning">Editar</button><button type="button" onclick="eliminarProducto(this)" class="btn btn-danger">Borrar</button></td>
+            </tr>`
+            })
+            result = result + `</table>`
+            document.getElementById("content").innerHTML = result;
+        }
     });
     //endregion----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </script>

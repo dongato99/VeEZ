@@ -2,37 +2,30 @@
 <div class="form-group">
     <label class="form-label mt-4"></label>
     <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingid" placeholder="Takis">
+        <label for="floatingid">identificador del producto</label>
+    </div>
+    <div class="form-floating mb-3">
         <input type="text" class="form-control" id="floatingnombre" placeholder="Takis">
         <label for="floatingnombre">Nombre del producto</label>
-      </div>
-      <div class="form-floating mb-3">
+    </div>
+    <div class="form-floating mb-3">
         <input type="text" class="form-control" id="floatingdescripcion" placeholder="Descripción">
         <label for="floatingnombre">Descripción del producto</label>
-      </div>
-      <div class="form-floating mb-3">
+    </div>
+    <div class="form-floating mb-3">
         <input type="text" class="form-control" id="floatingcategoria" placeholder="Categoría">
         <label for="floatingInput">Categoría</label>
-      </div>  
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control" id="floatingcompra" placeholder="Precio de compra">
-        <label for="floatingInput">Precio de compra</label>
-      </div>  
-      <div class="form-floating mb-3">
+    </div>
+    <div class="form-floating mb-3">
         <input type="number" class="form-control" id="floatingventa" placeholder="Precio de venta">
         <label for="floatingInput">Precio de venta</label>
-      </div>  
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control" id="floatingunidades" placeholder="Unidades">
-        <label for="floatingInput">Unidades</label>
-      </div>  
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingproveedor" placeholder="Proveedor">
-        <label for="floatingInput">Nombre Empresa/Proveedor</label>
-      </div>  
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingmedida" placeholder="Medida">
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatinguom" placeholder="Medida">
         <label for="floatingInput">Unidad de medida</label>
-      </div>  
-      <button type="button" class="btn btn-success">Registrar</button>
-      <button type="button" class="btn btn-danger" id="botonCancelar">Cancelar</button><!--Volver al inicio (trabajo de back end :v)-->
+    </div>
+    <button type="button" onclick="registrarProducto()" class="btn btn-success">Registrar</button>
+    <button type="button" onclick="location.href='#/'" class="btn btn-danger" id="botonCancelar">Cancelar</button>
+    <!--Volver al inicio (trabajo de back end :v)-->
 </div>

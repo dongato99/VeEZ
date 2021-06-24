@@ -16,6 +16,7 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+DROP DATABASE "VeEZ";
 --
 -- Name: VeEZ; Type: DATABASE; Schema: -; Owner: postgres
 --
@@ -72,11 +73,59 @@ CREATE TABLE public.clientes (
 ALTER TABLE public.clientes OWNER TO postgres;
 
 --
+-- Name: productos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.productos (
+    id character varying(255) NOT NULL,
+    nombre character varying(255),
+    descripcion character varying(255),
+    categoria character varying(255),
+    precio_compra double precision,
+    precio_venta double precision,
+    unidades double precision,
+    uom character varying(255)
+);
+
+
+ALTER TABLE public.productos OWNER TO postgres;
+
+--
+-- Name: proveedores; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.proveedores (
+    nombre character varying(255),
+    direccion character varying(255),
+    correo character varying(255) NOT NULL,
+    numero character varying(255)
+);
+
+
+ALTER TABLE public.proveedores OWNER TO postgres;
+
+--
 -- Name: clientes clientes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.clientes
     ADD CONSTRAINT clientes_pkey PRIMARY KEY (correo);
+
+
+--
+-- Name: productos productos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.productos
+    ADD CONSTRAINT productos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: proveedores proveedores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.proveedores
+    ADD CONSTRAINT proveedores_pkey PRIMARY KEY (correo);
 
 
 --

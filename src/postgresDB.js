@@ -97,6 +97,53 @@ class DBClient {
             })
         }
         // crud proveedores---------------------------------------------------------------------------------
+        // crud productos---------------------------------------------------------------------------------
+    registrarProducto(producto) {
+        var query = `insert into public.productos values('${producto.id}', '${producto.nombre}', 
+        '${producto.desc}','${producto.categ}','${producto.pCompra}','${producto.pVenta}'
+        ,'${producto.unidades}','${producto.uom}') ON CONFLICT (id) DO NOTHING;`
+        this.client.query(query, (err, res) => {
+            if (err) {
+                console.log("error registrando producto: " + producto + " error: " + err);
+            }
+        })
+    }
+
+    editarProducto(producto) {
+        var query = `update public.productos set 
+        (id, nombre, descripcion, categoria, precio_compra, precio_venta, unidades, uom) = 
+        ('${producto.id}' ,'${producto.nombre}', '${producto.desc}', '${producto.categ}'
+        , '${producto.pCompra}', '${producto.pVenta}', '${producto.unidades}', '${producto.uom}')
+         where id = '${producto.id}'`
+            //console.log(query)
+        this.client.query(query, (err, res) => {
+            if (err) {
+                console.log("error editando producto: " + proveedor + " error: " + err);
+            }
+        })
+    }
+
+    borrarProducto(id) {
+        var query = `delete from public.productos where id = '${id}'`
+        this.client.query(query, (err, res) => {
+            if (err) {
+                console.log("error borrando producto: " + err);
+            }
+        })
+    }
+
+    obtenerProductos() {
+            var query = "select * from public.productos"
+            this.client.query(query, (err, res) => {
+                if (err) {
+                    console.log("error obteniendo productos: " + err);
+                } else {
+                    //console.log(res.rows)
+                    this.mainWindow.webContents.send("productosLista", res.rows)
+                }
+            })
+        }
+        // crud productos---------------------------------------------------------------------------------
 }
 
 module.exports = DBClient

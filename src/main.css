@@ -31,7 +31,11 @@ floatingMail {
 }
 
 #listaClientes .btn.btn-warning,
-#listaClientes .btn.btn-danger {
+#listaClientes .btn.btn-danger,
+#listaProveedores .btn.btn-warning,
+#listaProveedores .btn.btn-danger,
+#listaProductos .btn.btn-warning,
+#listaProductos .btn.btn-danger {
     margin-right: 2%;
     width: 48%;
 }

@@ -13,7 +13,7 @@ var dbClient
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
         show: false,
-        width: 1250,
+        width: 1450,
         height: 800,
         webPreferences: {
             nodeIntegration: true,
@@ -65,5 +65,22 @@ ipcMain.on('borrarProveedor', (event, arg) => {
 })
 
 ipcMain.on('editarProveedor', (event, arg) => {
-    dbClient.editarProveedor(arg)
+        dbClient.editarProveedor(arg)
+    })
+    //crud productos--------------------------------
+ipcMain.on('registrarProducto', (event, arg) => {
+    console.log(arg) // prints client
+    dbClient.registrarProducto(arg)
+})
+
+ipcMain.on('productosLista', (event, arg) => {
+    dbClient.obtenerProductos()
+})
+
+ipcMain.on('borrarProducto', (event, arg) => {
+    dbClient.borrarProducto(arg)
+})
+
+ipcMain.on('editarProducto', (event, arg) => {
+    dbClient.editarProducto(arg)
 })
