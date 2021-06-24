@@ -10,7 +10,7 @@
 
 Once all is installed open a terminal in the project root directory and run "npm install" which will install all the dependencies for the project.
 
-Open pgAdmin and run the sql inside db.sql which will create the required database and tables (First select the statement that creates the database and press f5 to execute, then select all the table creations and press f5 to create them all at once)
+Open pgAdmin and run the sql inside db.sql in a query tool which will create the required database and tables (First select the statement that creates the database and press f5 to execute, then open a query tool in the newly created database then select all the table creations from the script and press f5 to create them all at once)
 
 Open postgresDB.js and replace your database credentials and database ip (localhost)
 
