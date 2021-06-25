@@ -5,7 +5,7 @@ const DBClient = require('./postgresDB');
 let mainWindow
 var dbClient
 
-app.on('ready', async () => {
+app.on('ready', async() => {
     mainWindow = new BrowserWindow({
         show: false,
         width: 1450,
@@ -19,68 +19,69 @@ app.on('ready', async () => {
     mainWindow.loadFile(path.join(__dirname, 'views/index.html'));
     mainWindow.setMenuBarVisibility(false)
     mainWindow.webContents.openDevTools()
-    dbClient = new DBClient(mainWindow)
+    dbClient = new DBClient()
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show()
     })
-    await tests();
 });
 //end electron config -------------------------------------------------------------------------------------------------
 
 
 //region crud----------------------------------------------------------------------------------------------------------
-async function tests() {
-    res = await dbClient.registrarCliente({})
-    console.log(res)
-}
 
-ipcMain.on('registrarCliente', (event, arg) => {
+
+ipcMain.on('registrarCliente', async(event, arg) => {
     console.log(arg)
-    dbClient.registrarCliente(arg)
+    await dbClient.registrarCliente(arg)
 })
 
-ipcMain.on('clientesLista', (event, arg) => {
-    dbClient.obtenerClientes()
+ipcMain.on('clientesLista', async(event, arg) => {
+    clientes = await dbClient.obtenerClientes()
+    mainWindow.webContents.send("clientesLista", clientes)
 })
 
-ipcMain.on('borrarCliente', (event, arg) => {
-    dbClient.borrarCliente(arg)
+ipcMain.on('borrarCliente', async(event, arg) => {
+    await dbClient.borrarCliente(arg)
 })
 
-ipcMain.on('editarCliente', (event, arg) => {
-        dbClient.editarCliente(arg)
-    })
-    //crud proveedores--------------------------------
-ipcMain.on('registrarProveedor', (event, arg) => {
+ipcMain.on('editarCliente', async(event, arg) => {
+    await dbClient.editarCliente(arg)
+})
+
+//crud proveedores--------------------------------
+ipcMain.on('registrarProveedor', async(event, arg) => {
     console.log(arg)
-    dbClient.registrarProveedor(arg)
+    await dbClient.registrarProveedor(arg)
 })
 
-ipcMain.on('proveedoresLista', (event, arg) => {
-    dbClient.obtenerProveedores()
+ipcMain.on('proveedoresLista', async(event, arg) => {
+    proveedores = await dbClient.obtenerProveedores()
+    mainWindow.webContents.send("proveedoresLista", proveedores)
 })
 
-ipcMain.on('borrarProveedor', (event, arg) => {
-    dbClient.borrarProveedor(arg)
+ipcMain.on('borrarProveedor', async(event, arg) => {
+    await dbClient.borrarProveedor(arg)
 })
 
-ipcMain.on('editarProveedor', (event, arg) => {
-        dbClient.editarProveedor(arg)
-    })
-    //crud productos--------------------------------
-ipcMain.on('registrarProducto', (event, arg) => {
+ipcMain.on('editarProveedor', async(event, arg) => {
+    await dbClient.editarProveedor(arg)
+})
+
+//crud productos--------------------------------
+ipcMain.on('registrarProducto', async(event, arg) => {
     console.log(arg)
-    dbClient.registrarProducto(arg)
+    await dbClient.registrarProducto(arg)
 })
 
-ipcMain.on('productosLista', (event, arg) => {
-    dbClient.obtenerProductos()
+ipcMain.on('productosLista', async(event, arg) => {
+    productos = await dbClient.obtenerProductos()
+    mainWindow.webContents.send("productosLista", productos)
 })
 
-ipcMain.on('borrarProducto', (event, arg) => {
-    dbClient.borrarProducto(arg)
+ipcMain.on('borrarProducto', async(event, arg) => {
+    await dbClient.borrarProducto(arg)
 })
 
-ipcMain.on('editarProducto', (event, arg) => {
-    dbClient.editarProducto(arg)
+ipcMain.on('editarProducto', async(event, arg) => {
+    await dbClient.editarProducto(arg)
 })
