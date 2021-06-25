@@ -5,7 +5,7 @@ const DBClient = require('./postgresDB');
 let mainWindow
 var dbClient
 
-app.on('ready', () => {
+app.on('ready', async () => {
     mainWindow = new BrowserWindow({
         show: false,
         width: 1450,
@@ -18,15 +18,22 @@ app.on('ready', () => {
     })
     mainWindow.loadFile(path.join(__dirname, 'views/index.html'));
     mainWindow.setMenuBarVisibility(false)
+    mainWindow.webContents.openDevTools()
     dbClient = new DBClient(mainWindow)
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.show()
     })
+    await tests();
 });
 //end electron config -------------------------------------------------------------------------------------------------
 
 
 //region crud----------------------------------------------------------------------------------------------------------
+async function tests() {
+    res = await dbClient.registrarCliente({})
+    console.log(res)
+}
+
 ipcMain.on('registrarCliente', (event, arg) => {
     console.log(arg)
     dbClient.registrarCliente(arg)

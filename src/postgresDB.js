@@ -1,5 +1,6 @@
 const { Client } = require('pg')
 
+
 class DBClient {
 
     constructor(mainWindow) {
@@ -14,14 +15,27 @@ class DBClient {
         this.client.connect()
     }
 
+
+    verificarQuery(query) {
+        if (query.includes("undefined")) {
+            console.log("Query invalida: "+query)
+            return false;
+        }
+        return true;
+    }
+
     // crud cliente---------------------------------------------------------------------------------
-    registrarCliente(cliente) {
-        var query = `insert into public.clientes values('${cliente.nombre}', '${cliente.dir}', '${cliente.date}', '${cliente.mail}','${cliente.tel}') ON CONFLICT (correo) DO NOTHING;`
-        this.client.query(query, (err, res) => {
-            if (err) {
-                console.log("error registrando cliente: " + cliente + " error: " + err);
+    async registrarCliente(cliente) {
+        var query = `insert into public.clientes values('${cliente.nombre}', '${cliente.dir}', '${cliente.date}', '${cliente.mail}','${cliente.tel}') ON CONFLICT (correo) DO NOTHING;` 
+        if(verificarQuery(query)) {
+            try {
+                await this.client.query(query)
+                return true
+            } catch (err) {
+                console.log("error registrando cliente: " + cliente + " error: " + err + "\nquery:" + query);
             }
-        })
+        
+        return false;}    
     }
 
     editarCliente(cliente) {
